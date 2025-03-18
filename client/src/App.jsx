@@ -136,7 +136,7 @@ function App() {
       {/* Форма создания/редактирования подписки */}
       <form onSubmit={handleCreateOrUpdate} className="form-container">
         <div className="form-container-item">
-          <label htmlFor="name">Name: </label>
+          <label htmlFor="name">Name:*</label>
           <input
             id="name"
             type="text"
@@ -149,10 +149,11 @@ function App() {
         </div>
 
         <div className="form-container-item">
-          <label htmlFor="cost">Cost: </label>
+          <label htmlFor="cost">Cost:*</label>
           <input
             id="cost"
             type="number"
+            min="0"
             placeholder="10"
             value={cost}
             onChange={(e) => handleInputChange('cost', e.target.value)}
@@ -162,7 +163,7 @@ function App() {
         </div>
 
         <div className="form-container-item">
-          <label htmlFor="startDate">Start Date: </label>
+          <label htmlFor="startDate">Start Date:*</label>
           <input
             id="startDate"
             type="date"
@@ -192,19 +193,25 @@ function App() {
       <h2>Subscription list</h2>
 
       <div className='subscription-list'>
-        {subscriptions.map((sub) => (
-          <div key={sub._id} className="subscription-item">
-            <div>
-              <b>{sub.name}</b> | {sub.cost}$ |{' '}
-              {new Date(sub.startDate).toLocaleDateString()}
-              {sub.endDate ? ' - ' + new Date(sub.endDate).toLocaleDateString() : ''}
+        {subscriptions.length > 0 ? (
+          subscriptions.map((sub) => (
+            <div key={sub._id} className="subscription-item">
+              <div>
+                <b>{sub.name}</b> | {sub.cost}$ |{' '}
+                {new Date(sub.startDate).toLocaleDateString()}
+                {sub.endDate ? ' - ' + new Date(sub.endDate).toLocaleDateString() : ''}
+              </div>
+              <div className='subscription-item_buttons'>
+                <button onClick={() => handleEditClick(sub)}>Edit</button>
+                <button onClick={() => handleDeleteClick(sub._id)}>Delete</button>
+              </div>
             </div>
-            <div className='subscription-item_buttons'>
-              <button onClick={() => handleEditClick(sub)}>Edit</button>
-              <button onClick={() => handleDeleteClick(sub._id)}>Delete</button>
-            </div>
+          ))
+        ) : (
+          <div className="no-subscriptions">
+            You have no subscriptions yet. Add a new one!
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
