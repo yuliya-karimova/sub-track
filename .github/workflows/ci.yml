@@ -2,50 +2,60 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out the repository
+      - name: Check out
         uses: actions/checkout@v3
-
-      - name: Use Node.js 16
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
-      # Установка зависимостей и билд/тест для server
-      - name: Install server dependencies
+      - name: Install server & client
         run: |
           cd server
+          npm install
+          cd ../client
           npm install
 
       - name: Build server
         run: |
           cd server
-          # Для Node.js (чистого JS) отдельная компиляция не нужна
-          echo "No build step needed"
-
-      - name: Test server
-        run: |
-          cd server
-          npm test
-
-      # Установка зависимостей и билд/тест для client
-      - name: Install client dependencies
-        run: |
-          cd client
-          npm install
+          echo "No build needed for pure JS"
 
       - name: Build client
         run: |
           cd client
           npm run build
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build   # тесты выполнятся после успешного build
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install server & client
+        run: |
+          cd server
+          npm install
+          cd ../client
+          npm install
+
+      - name: Test server
+        run: |
+          cd server
+          npm test
 
       - name: Test client
         run: |
