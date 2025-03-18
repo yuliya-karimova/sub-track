@@ -1,3 +1,4 @@
+// server/test/subscription.test.js
 const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../src/app'); // Подключаем Express-приложение
@@ -7,20 +8,21 @@ describe('Subscription API', () => {
   let createdSubId;
 
   beforeAll(async () => {
-    try {
-      await mongoose.connect('mongodb://127.0.0.1:27017/subscriptions_test', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+    // Если соединение ещё не установлено, ждём его открытия
+    if (mongoose.connection.readyState === 0) {
+      await new Promise((resolve, reject) => {
+        mongoose.connection.once('open', resolve);
+        mongoose.connection.on('error', reject);
       });
-    } catch (error) {
-      console.error('Ошибка подключения к MongoDB:', error);
     }
   });
 
   afterAll(async () => {
     try {
-      await mongoose.connection.db.dropDatabase(); // Удаляем тестовую БД
-      await mongoose.connection.close(); // Закрываем соединение
+      if (mongoose.connection && mongoose.connection.db) {
+        await mongoose.connection.db.dropDatabase(); // Удаляем тестовую БД
+      }
+      await mongoose.disconnect(); // Закрываем соединение
     } catch (error) {
       console.error('Ошибка при закрытии MongoDB:', error);
     }
@@ -37,17 +39,17 @@ describe('Subscription API', () => {
       cost: 10,
       startDate: '2023-01-01'
     };
-  
+
     const response = await request(app)
       .post('/api/subscriptions')
       .send(newSub)
       .expect(201);
-  
+
     expect(response.body._id).toBeDefined();
     expect(response.body.name).toBe(newSub.name);
     expect(response.body.cost).toBe(newSub.cost);
-    expect(response.body.startDate.slice(0, 10)).toBe(newSub.startDate); // Исправлено
-  
+    expect(response.body.startDate.slice(0, 10)).toBe(newSub.startDate);
+
     createdSubId = response.body._id;
   });
 
