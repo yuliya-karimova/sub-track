@@ -73,7 +73,9 @@ describe('App component', () => {
     });
 
     // Проверяем, что на экране появилось новое название (список обновился)
-    expect(screen.getByText('New service')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('New service')).toBeInTheDocument();
+    });
   });
 
   it('должен переходить в режим Edit и вызывать updateSubscription при сабмите', async () => {
@@ -126,7 +128,9 @@ describe('App component', () => {
     });
 
     // Теперь на экране должно быть новое название/цена
-    expect(screen.getByText(/Netflix Updated/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Netflix Updated/i)).toBeInTheDocument();
+    });
   });
 
   it('должен вызывать deleteSubscription при клике на Delete и убирать подписку из списка', async () => {
