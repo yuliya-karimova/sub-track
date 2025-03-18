@@ -1,0 +1,58 @@
+/* client/src/App.css */
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  max-width: 600px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.form-container-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+}
+
+.form-container-item input {
+  width: 100%;
+}
+
+.form-container label {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.subscription-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.subscription-item {
+  border-radius: 8px;
+  border: 1px solid #000000;
+  padding: 1.2em;
+  width: 100%;
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.subscription-item_buttons {
+  display: flex;
+  gap: 0.5rem;
+}

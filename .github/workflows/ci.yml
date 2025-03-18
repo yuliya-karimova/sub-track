@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # Установка зависимостей и билд/тест для server
+      - name: Install server dependencies
+        run: |
+          cd server
+          npm install
+
+      - name: Build server
+        run: |
+          cd server
+          # Для Node.js (чистого JS) отдельная компиляция не нужна
+          echo "No build step needed"
+
+      - name: Test server
+        run: |
+          cd server
+          npm test
+
+      # Установка зависимостей и билд/тест для client
+      - name: Install client dependencies
+        run: |
+          cd client
+          npm install
+
+      - name: Build client
+        run: |
+          cd client
+          npm run build
+
+      - name: Test client
+        run: |
+          cd client
+          npm test

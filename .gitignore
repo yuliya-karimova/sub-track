@@ -1,0 +1,54 @@
+# --- Общие игнорируемые файлы ---
+.DS_Store
+Thumbs.db
+*.log
+*.lock
+*.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# --- Node.js зависимости ---
+node_modules/
+npm-debug.log*
+yarn-error.log
+pnpm-lock.yaml
+
+# --- Исключаем папки сборки (Frontend + Backend) ---
+server/node_modules/
+server/dist/
+server/.env
+server/package-lock.json
+
+client/node_modules/
+client/dist/
+client/.env
+client/package-lock.json
+
+# --- MongoDB (локальная база данных) ---
+data/db/
+dump/
+
+# --- Секретные файлы (ключи, токены, переменные окружения) ---
+*.pem
+*.crt
+*.key
+*.p12
+
+# --- Файлы редакторов ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# --- OS (MacOS, Windows) ---
+*.bak
+*.tmp
+*.~lock
+*.lnk
+*.icloud
+
+# --- Logs and Debug ---
+*.
