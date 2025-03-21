@@ -30,7 +30,7 @@ jobs:
       - name: Build server
         run: |
           cd server
-          echo "No build needed for pure JS"
+          npm run build
       - name: Build client
         run: |
           cd client
