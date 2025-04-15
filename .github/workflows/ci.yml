@@ -21,19 +21,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Install server & client
-        run: |
-          cd server
-          npm install
-          cd ../client
-          npm install
       - name: Build server
         run: |
           cd server
-          echo "No build needed for pure JS"
+          npm install
+          npm run build
       - name: Build client
         run: |
           cd client
+          npm install
           npm run build
 
   test:
