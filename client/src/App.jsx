@@ -23,7 +23,7 @@ function App() {
   // Состояние ошибок
   const [errors, setErrors] = useState({});
 
-  // При первом рендере подгружаем список подписок (READ)
+  // При первом рендере подгружаем список подписок
   useEffect(() => {
     fetchSubscriptions();
   }, []);
